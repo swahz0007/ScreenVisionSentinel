@@ -941,8 +941,13 @@ def test_ahk_workbench_uses_picker_and_safe_batch_reads() -> None:
     assert "实时参数屏" in workbench
     assert "BuildLiveDataSummary" in workbench
     assert "BuildLiveDataScreenGui" in workbench
-    assert "global LIVE_DATA_SCREEN_OPEN, LiveDataHeader, LiveDataValues" in workbench
+    assert "global LIVE_DATA_SCREEN_OPEN, LiveDataTitle, LiveDataHeader" in workbench
+    assert "LiveDataValues, LiveDataPrivacy" in workbench
     assert 'A_Args[1] = "--live-screen-selftest"' in workbench
+    assert "3GuiSize:" in workbench
+    assert "ResizeLiveDataScreen(A_GuiWidth, A_GuiHeight)" in workbench
+    assert "Gui, 3:Show, w680 h680, 后台实时参数" in workbench
+    assert "GuiControl, 3:Move, LiveDataValues" in workbench
     assert "SvsJsonHasNamedText" in workbench
     assert "RefreshMonitorLiveStatus()" in workbench
     assert "RefreshMonitorStatusTimer:" in workbench
@@ -981,8 +986,11 @@ def test_offline_workbench_keeps_work_computer_coordinates_and_monitor_helpers()
     assert "SvsHealthMonitorLatestAvailable" in workbench
     assert "SvsGetMonitorLatestJson" in workbench
     assert "实时参数屏" in workbench
-    assert "global LIVE_DATA_SCREEN_OPEN, LiveDataHeader, LiveDataValues" in workbench
+    assert "global LIVE_DATA_SCREEN_OPEN, LiveDataTitle, LiveDataHeader" in workbench
+    assert "LiveDataValues, LiveDataPrivacy" in workbench
     assert 'A_Args[1] = "--live-screen-selftest"' in workbench
+    assert "3GuiSize:" in workbench
+    assert "ResizeLiveDataScreen(A_GuiWidth, A_GuiHeight)" in workbench
     assert "global MONITOR_INTERVAL_SECONDS := 5" in workbench
     assert "RefreshMonitorLiveStatus()" in workbench
     assert 'if (IsScreenCoordinateMode())\n        COORDINATE_MODE := "window"' in workbench

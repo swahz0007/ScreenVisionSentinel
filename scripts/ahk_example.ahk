@@ -143,6 +143,7 @@ if (A_Args.Length() > 0 && A_Args[1] = "--syntax-check")
 if (A_Args.Length() > 0 && A_Args[1] = "--live-screen-selftest")
 {
     BuildLiveDataScreenGui(false)
+    ResizeLiveDataScreen(680, 680)
     ExitApp
 }
 
@@ -239,6 +240,11 @@ return
 3GuiClose:
 3GuiEscape:
     CloseLiveDataScreen()
+return
+
+3GuiSize:
+    if (A_EventInfo != 1)
+        ResizeLiveDataScreen(A_GuiWidth, A_GuiHeight)
 return
 
 PrefixPickerOK:
@@ -864,19 +870,34 @@ ShowLiveDataScreen() {
 }
 
 BuildLiveDataScreenGui(ShowWindow := true) {
-    global LIVE_DATA_SCREEN_OPEN, LiveDataHeader, LiveDataValues
-    Gui, 3:+AlwaysOnTop +Resize +MinSize540x430
+    global LIVE_DATA_SCREEN_OPEN, LiveDataTitle, LiveDataHeader, LiveDataValues, LiveDataPrivacy
+    Gui, 3:+AlwaysOnTop +Resize +MinSize540x500
     Gui, 3:Margin, 12, 10
     Gui, 3:Font, s10, Microsoft YaHei UI
-    Gui, 3:Add, Text, xm ym w510, 后台实时参数
+    Gui, 3:Add, Text, xm ym w510 vLiveDataTitle, 后台实时参数
     Gui, 3:Add, Text, xm y+5 w510 h38 +Border vLiveDataHeader, 接口已连接，等待后台监测数据...
-    Gui, 3:Add, Edit, xm y+8 w510 h330 ReadOnly +VScroll vLiveDataValues, 尚未收到参数。请先在主工作台启动后台监测。
-    Gui, 3:Add, Text, xm y+8 w510, 仅显示服务内存中的最新一轮；可能含敏感信息，请勿截图或外传。
+    Gui, 3:Add, Edit, xm y+8 w510 h480 ReadOnly +VScroll vLiveDataValues, 尚未收到参数。请先在主工作台启动后台监测。
+    Gui, 3:Add, Text, xm y+8 w510 vLiveDataPrivacy, 仅显示服务内存中的最新一轮；可能含敏感信息，请勿截图或外传。
     if (ShowWindow)
     {
-        Gui, 3:Show, AutoSize, 后台实时参数
+        Gui, 3:Show, w680 h680, 后台实时参数
         LIVE_DATA_SCREEN_OPEN := true
+        ResizeLiveDataScreen(680, 680)
     }
+}
+
+ResizeLiveDataScreen(GuiWidth, GuiHeight) {
+    global LiveDataTitle, LiveDataHeader, LiveDataValues, LiveDataPrivacy
+    Margin := 12
+    ContentWidth := Max(320, GuiWidth - Margin * 2)
+    HeaderY := 39
+    EditY := 85
+    FooterY := Max(130, GuiHeight - 34)
+    EditHeight := Max(120, FooterY - EditY - 8)
+    GuiControl, 3:Move, LiveDataTitle, % "x" . Margin . " y10 w" . ContentWidth
+    GuiControl, 3:Move, LiveDataHeader, % "x" . Margin . " y" . HeaderY . " w" . ContentWidth . " h38"
+    GuiControl, 3:Move, LiveDataValues, % "x" . Margin . " y" . EditY . " w" . ContentWidth . " h" . EditHeight
+    GuiControl, 3:Move, LiveDataPrivacy, % "x" . Margin . " y" . FooterY . " w" . ContentWidth
 }
 
 CloseLiveDataScreen() {
