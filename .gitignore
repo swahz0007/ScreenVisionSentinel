@@ -1,0 +1,41 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+*.spec
+
+# Local runtime output
+*.log
+data/logs/
+data/debug/
+data/database/*.db
+data/database/*.sqlite
+data/database/*.sqlite3
+data/screenshots/
+data/trigger_images/
+scripts/debug_ocr.png
+scripts/test_out.txt
+
+# Local configuration overrides
+config/local.*
+config/*.local.*
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# OCR model/cache files
+.paddleocr/
+paddleocr/
+models/
+*.pdmodel
+*.pdiparams
+*.onnx

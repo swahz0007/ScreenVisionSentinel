@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "screenvision-sentinel"
+version = "0.1.0-dev"
+description = "Windows screen-region visual monitoring tool in read-only initialization stage."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "PySide6>=6.7,<7",
+    "mss>=9,<11",
+    "numpy>=1.26,<3",
+    "onnxruntime>=1.17,<2",
+    "opencv-python>=4.9,<5",
+    "rapidocr_onnxruntime>=1.4,<2",
+]
+
+[project.scripts]
+screenvision-sentinel = "screenvision_sentinel.main:main"
+svs-cli = "screenvision_sentinel.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+exclude = [
+    ".venv",
+    "data",
+    "docs/archived",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
